@@ -1,4 +1,4 @@
 bos
 ===
 
-BunchOfScripts
+Just a bunch of scripts
