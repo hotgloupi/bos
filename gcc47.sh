@@ -33,7 +33,7 @@ PREFIX=`abspath "$2"`
 
 GCC_URL="http://www.netgull.com/gcc/releases/gcc-4.7.2/gcc-4.7.2.tar.bz2"
 GCC_TARBALL="gcc.tar.bz2"
-GCC_CONFIGURE='"${SRC_DIR}"/configure --prefix="$PREFIX" --with-gmp="$PREFIX" --with-mpfr="$PREFIX" --with-mpc="$PREFIX" --program-suffix=-4.7 --enable-cloog-backend=isl --with-ppl="$PREFIX" --with-cloog="$PREFIX"'
+GCC_CONFIGURE='"${SRC_DIR}"/configure --prefix="$PREFIX" --with-gmp="$PREFIX" --with-mpfr="$PREFIX" --with-mpc="$PREFIX" --program-suffix=-4.7 --enable-cloog-backend=isl --with-ppl="$PREFIX" --with-cloog="$PREFIX" --enable-languages=c,c++'
 
 PPL_URL="http://bugseng.com/external/ppl/download/ftp/releases/0.12/ppl-0.12.tar.bz2"
 PPL_TARBALL="ppl.tar.gz"
@@ -60,7 +60,8 @@ mkdir -p "$PROJECT_DIR" || fatal "Cannot create gcc directory"
 
 cd "$PROJECT_DIR"
 
-COMPONENTS="GCC PPL CLOOG MPC GMP MPFR"
+# order is important
+[ -z "$COMPONENTS" ] && COMPONENTS="GMP MPFR MPC PPL CLOOG GCC"
 
 for component in ${COMPONENTS}
 do
@@ -70,12 +71,10 @@ do
 	[ ! -d "$component" ] && mkdir "$component" && tar xvf "${tarball}" -C "${component}"
 done
 
-# order is important
-COMPONENTS_BUILD="GMP MPFR MPC PPL CLOOG GCC"
 
 export LD_LIBRARY_PATH="$PREFIX/lib"
 
-for component in ${COMPONENTS_BUILD}
+for component in ${COMPONENTS}
 do
 	mkdir -p "$PROJECT_DIR"/build/$component
 	cd "$PROJECT_DIR"/build/$component
