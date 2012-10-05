@@ -65,7 +65,7 @@ using python
 	;
 EOF
 
-[ -z "$COMPONENTS" ] && COMPONENTS="system filesystem signals thread python"
+[ -z "$COMPONENTS" ] && COMPONENTS="system filesystem signals thread python test"
 [ -z "$VARIANT" ] && VARIANT=release
 [ -z "$LINK" ] && LINK=shared
 [ -z "$THREADING" ] && THREADING=multi
@@ -77,5 +77,5 @@ do
 	CMD="$CMD --with-$component"
 done
 
-./b2 --prefix="$PREFIX" --user-config=user-config.jam --debug-configuration $CMD variant=$VARIANT link=$LINK threading=$THREADING python=3.3 install
+./b2 --prefix="$PREFIX" --user-config=user-config.jam $CMD variant=$VARIANT link=$LINK threading=$THREADING python=3.3 install
 
