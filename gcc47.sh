@@ -9,7 +9,7 @@ SCRIPT_DIR=`python -c "import os;print(os.path.abspath(os.path.dirname('$0')))"`
 
 abspath()
 {
-	echo `python3 -c "import os;print(os.path.abspath('$1'))"`
+	echo `python -c "import os;print(os.path.abspath('$1'))"`
 }
 
 fatal()
